@@ -35,7 +35,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="item in products">
+                            <tr v-for="item in products" :key="item.id">
                                 <td width="150">{{ item.title }}</td>
                                 <td width="120">
                                     {{ item.origin_price }}
@@ -48,34 +48,35 @@
                                     <span v-else="item.is_enabled">未啟用</span>
                                 </td>
                                 <td width="120">
-                                    <button type="button" class="btn btn-primary" v-on:click="temp=item">查看細節</button>
+                                    <button type="button" class="btn btn-primary" v-on:click="openProduct(item)">查看細節</button>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
-                    <p>目前有 <span>{{ products.length }}</span> 項產品</p>
+                    <p>目前有 <span>{{ num }}</span> 項產品</p>
                 </div>
                 <div class="col-md-6">
                     <h2>單一產品細節</h2>
-                    <template v-if="temp.category">
+                    <template v-if="tempProducts.category">
                         <div class="card mb-3">
-                            <img v-bind:src="temp.imageUrl" class="card-img-top primary-image" alt="主圖">
+                            <img v-bind:src="tempProducts.imageUrl" class="card-img-top primary-image" alt="主圖">
                             <div class="card-body">
                                 <h5 class="card-title">
-                                    {{ temp.title }}
-                                    <span class="badge bg-primary ms-2">{{ temp.category }}</span>
+                                    {{ tempProducts.title }}
+                                    <span class="badge bg-primary ms-2">{{ tempProducts.category }}</span>
                                 </h5>
-                                <p class="card-text">商品描述：{{ temp.description }}</p>
-                                <p class="card-text">商品內容：{{ temp.content }}</p>
+                                <p class="card-text">商品描述：{{ tempProducts.description }}</p>
+                                <p class="card-text">商品內容：{{ tempProducts.content }}</p>
                                 <div class="d-flex">
-                                    <p class="card-text me-2">{{ temp.price }}</p>
-                                    <p class="card-text text-secondary"><del>{{ temp.origin_price }}</del></p>
-                                    {{ temp.unit }} / 元
+                                    <p class="card-text me-2">{{ tempProducts.price }}</p>
+                                    <p class="card-text text-secondary"><del>{{ tempProducts.origin_price }}</del></p>
+                                    {{ tempProducts.unit }} / 元
                                 </div>
                             </div>
                         </div>
-                        <template v-for="pic in temp.imagesUrl">
-                            <img v-bind:src="pic" v-bind:alt="temp.category" class="images m-2">
+                        <!-- v-for需搭配 ：key="唯一值" -->
+                        <template v-for="(image, id) in tempProducts.imagesUrl" :key="id" class="">
+                            <img v-if="image" :src="image" :alt="`多圖 ${id+1}`" class="col-md-2 images img-fluid m-2">
                         </template>
                     </template>
                     <p class="text-secondary" v-else>請選擇一個商品查看</p>
@@ -83,6 +84,9 @@
             </div>
         </div>
     </div>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/axios/0.9.1/axios.min.js'
+        integrity='sha512-Xk3wWei2TGrsh9kDSBKUMIjw/86sLUvhtnv9f7fOuIwhhiUTKz8szkWkzHthrM5Bb3Bu9idSzkxOrkzhcneuiw=='
+        crossorigin='anonymous'></script>
 </body>
 
 </html>
