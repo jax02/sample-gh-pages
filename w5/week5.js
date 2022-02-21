@@ -111,6 +111,15 @@ const app = Vue.createApp({
                     console.log(err);
                 });
         },
+        removeCarts() {
+            axios.delete(`${apiUrl}/api/${apiPath}/carts`)
+                .then(res => {
+                    this.getCart();
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+        },
         updateCartItem(item) {
             const data =
             {
